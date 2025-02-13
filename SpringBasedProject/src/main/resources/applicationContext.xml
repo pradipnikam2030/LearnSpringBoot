@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- bean definitions here -->
+    <bean id="alien" class="org.example.Alien">
+<!--        inject value by setter injection here -->
+<!--        <property name="age" value="10"/>-->
+<!--        <property name="lap" ref="lap1"/>-->
+
+        <!-- inject value by constructor injection here -->
+<!--        when you are using args you have to follow the order of the constructor arguments-->
+<!--        <constructor-arg name="age" value="24"/>-->
+<!--        <constructor-arg name="sal" value="24000"/>-->
+<!--        <constructor-arg  ref="lap1"/>-->
+
+<!--        but if you are using index you can pass the value in any order-->
+
+                  <constructor-arg index="2"  ref="lap1"/>
+                <constructor-arg index="0"  value="24"/>
+                <constructor-arg index="1" value="24000"/>
+
+    </bean>
+
+<!--    <bean id="alien" class="org.example.Alien" scope="prototype">-->
+<!--    </bean>-->
+
+
+    <bean id="lap1" class="org.example.Laptop">
+
+    </bean>
+</beans>

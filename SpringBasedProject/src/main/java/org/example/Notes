@@ -1,0 +1,56 @@
+
+ ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+ -> this is the line where object creates in spring framework.
+ if we create bean like this :
+ <bean id="alien" class="org.example.Alien"></bean>
+
+
+ Scope:
+ --------------
+
+ but if we declare scope as prototype then it will create new object every time.
+ <bean id="alien" class="org.example.Alien" scope="prototype"></bean>
+
+ basically prototype is used when we want to create new object every time.
+
+ if we want to create new object every time then we can use prototype scope.
+
+ if we want to create only one object then we can use singleton scope.
+
+ when we use prototype then object will create at the line:
+ Alien alien = (Alien) context.getBean("alien");
+
+ but when we use singleton then object will create at the line:
+ ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+
+ with singleton scope we can create only one object. which refer to same object.
+
+ by default scope is singleton.
+
+
+ Setter Injection:
+ ------------------
+
+ you can use setter injection to inject the value in the bean.
+ <bean id="alien" class="org.example.Alien">
+ <property name="age" value="10"/>
+ </bean>
+
+
+Ref Attribute:
+--------------
+ <bean id="alien" class="org.example.Alien">
+  <property name="lap" ref="lap1"/>
+ <property
+
+ this is how we can pass the object reference of one class to another class by setter injection.
+
+
+ Constructor Injection:
+ -----------------------------
+
+                  <constructor-arg index="2"  ref="lap1"/>
+                 <constructor-arg index="0"  value="24"/>
+                 <constructor-arg index="1" value="24000"/>
+
+  This is how you can use Constructor Injection.

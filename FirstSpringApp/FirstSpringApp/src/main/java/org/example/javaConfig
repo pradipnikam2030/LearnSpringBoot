@@ -1,0 +1,211 @@
+Java-based configuration is a powerful feature in Spring that allows developers to configure the application context
+using Java classes instead of XML files. This approach provides type safety, refactoring support, and better
+integration with IDEs.
+
+Configuration Class:
+---------------------
+ A class annotated with @Configuration indicates that it contains one or more @Bean methods that define the beans to be
+ managed by the Spring container.
+
+ Bean Definition:
+--------------------
+ The @Bean annotation is used to declare a bean. The method annotated with @Bean returns an instance of the bean.
+
+ Dependency Injection:
+---------------------------
+ Dependencies can be injected into beans through method parameters. Spring automatically resolves the dependencies based on the type.
+ In the example, the Computer dependency is injected into the programmer bean method.
+
+ Qualifiers:
+----------------
+ The @Qualifier annotation can be used to specify which bean to inject when there are multiple candidates.
+ In the provided code, it is commented out but can be used as follows:
+@Autowired
+public Programmer programmer(@Qualifier("desktop") Computer com) {
+    // ...
+}
+
+
+Primary Beans:
+-----------------
+The @Primary annotation indicates that a bean should be given preference when multiple candidates are qualified to
+autowire a single-valued dependency.
+In the example, the laptop bean is marked as primary:
+
+@Bean
+@Primary
+public Laptop laptop() {
+    return new Laptop();
+}
+
+Bean Scopes
+-----------
+The default scope of a bean is singleton, meaning only one instance of the bean is created.
+You can change the scope using the @Scope annotation.
+@Bean
+@Scope("prototype")
+public Desktop desktop() {
+    return new Desktop();
+}
+
+Accessing Beans
+----------------
+Beans can be accessed from the application context using the getBean() method.
+
+
+Advantages of Java-Based Configuration
+----------------------------------------
+1.Type Safety:
+  Java-based configuration provides compile-time checking, reducing the risk of errors that can occur with string-based bean names in XML.
+2.Refactoring Support:
+  IDEs can easily refactor Java code, making it easier to maintain and update configurations.
+3.Less Boilerplate:
+  Java configuration can be more concise and easier to read compared to XML configuration.
+4.Integration with Java Code:
+  Java-based configuration allows for more seamless integration with other Java code, making it easier to manage complex configurations.
+
+  ----------------------------------------------------------------------------
+
+  1. Autowire
+  Definition: The @Autowired annotation is used for automatic dependency injection in Spring. It allows Spring to resolve and inject collaborating beans into your bean.
+
+  Usage:
+
+  Field Injection: Directly on fields.
+  Setter Injection: On setter methods.
+  Constructor Injection: On constructors.
+
+  @Component
+  public class MyService {
+      @Autowired
+      private MyRepository myRepository; // Field Injection
+
+      @Autowired
+      public void setMyRepository(MyRepository myRepository) { // Setter Injection
+          this.myRepository = myRepository;
+      }
+
+      @Autowired
+      public MyService(MyRepository myRepository) { // Constructor Injection
+          this.myRepository = myRepository;
+      }
+  }
+
+  2. Primary
+  Definition: The @Primary annotation is used to indicate that a bean should be given preference when multiple
+  candidates are qualified to autowire a single-valued dependency.
+
+  Usage: When you have multiple beans of the same type and want to specify which one should be injected by default.
+
+  @Component
+  @Primary
+  public class PrimaryService implements MyService {
+      // Implementation
+  }
+
+  @Component
+  public class SecondaryService implements MyService {
+      // Implementation
+  }
+
+  3. Qualifier
+  Definition: The @Qualifier annotation is used in conjunction with @Autowired to specify which bean should be injected
+  when multiple candidates are available.
+
+  Usage: To resolve ambiguity when multiple beans of the same type exist.
+
+  @Component
+  public class MyController {
+      @Autowired
+      @Qualifier("primaryService") // Specify which bean to inject
+      private MyService myService;
+  }
+
+  4. Component Stereotype Annotation
+  Definition: The @Component annotation is a generic stereotype for any Spring-managed component. It indicates that the class is a Spring bean.
+
+  Usage: To mark a class as a Spring component so that it can be automatically detected through classpath scanning.
+
+  Example:
+  @Component
+  public class MyComponent {
+      // Class implementation
+  }
+
+  5. Autowire Field, Constructor, and Setter
+  ------------------------------------------
+  Field Injection: Directly injects dependencies into fields. It is less preferred due to difficulties in testing and immutability.
+  @Autowired
+  private MyDependency myDependency;
+
+  Constructor Injection: Dependencies are provided through the constructor. This is the preferred method as it allows
+  for immutability and easier testing.
+
+  @Autowired
+  public MyClass(MyDependency myDependency) {
+      this.myDependency = myDependency;
+  }
+
+  Setter Injection: Dependencies are provided through setter methods. This allows for optional dependencies
+  but can lead to partially constructed objects.
+
+  @Autowired
+  public void setMyDependency(MyDependency myDependency) {
+      this.myDependency = myDependency;
+  }
+
+  6. Primary Annotation
+  Definition: The @Primary annotation is used to indicate that a bean should be preferred when multiple beans of the same type are present.
+
+  Usage: To avoid ambiguity in dependency injection when multiple beans of the same type exist.
+
+  @Bean
+  @Primary
+  public MyService primaryService() {
+      return new PrimaryService();
+  }
+
+  7. Scope
+  Definition: The @Scope annotation defines the scope of a bean, determining its lifecycle and visibility.
+
+  Common Scopes:
+
+  Singleton: (default) A single instance per Spring IoC container.
+  Prototype: A new instance every time the bean is requested.
+  Request: A single instance per HTTP request (web applications).
+  Session: A single instance per HTTP session (web applications).
+  Global Session: A single instance for global HTTP sessions (portlet applications).
+
+  @Bean
+  @Scope("prototype")
+  public MyBean myBean() {
+      return new MyBean();
+  }
+
+  8. Value Annotation
+  Definition: The @Value annotation is used to inject values into fields from property files or environment variables.
+
+  Usage: To inject configuration values into Spring beans.
+
+  Example:
+
+  @Component
+  public class MyConfig {
+      @Value("${my.property}")
+      private String myProperty;
+
+      // Getter and other methods
+  }
+
+
+  Summary
+  @Autowired: Automatically injects dependencies.
+  @Primary: Indicates a preferred bean when multiple candidates exist.
+  @Qualifier: Specifies which bean to inject when multiple candidates are available.
+  @Component: Marks a class as a Spring-managed component.
+  Field, Constructor, and Setter Injection: Different methods of injecting dependencies.
+  @Scope: Defines the lifecycle and visibility of a bean.
+  @Value: Injects values from property files or environment variables.
+
+
+
