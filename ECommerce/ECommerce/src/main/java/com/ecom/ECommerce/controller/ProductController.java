@@ -1,15 +1,37 @@
 package com.ecom.ECommerce.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.ecom.ECommerce.model.Product;
+import com.ecom.ECommerce.service.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("product")
 public class ProductController {
 
-    @GetMapping("/products")
-    public String getAllProducts(){
-        return "All Products";
+    @Autowired
+    ProductService productService;
+
+    public ResponseEntity<String> home(){
+        return new ResponseEntity<>("home", HttpStatus.OK);
+    }
+
+    @GetMapping("/getAllProducts")
+    public ResponseEntity<List<Product>> getProducts(){
+
+        List<Product>  list= productService.getAllProducts();
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
+    @GetMapping("/getProduct")
+    public Product getProduct(){
+        Product  product = new Product();
+        product.setId(1);
+        product.setName("test");
+        return product;
     }
 }
