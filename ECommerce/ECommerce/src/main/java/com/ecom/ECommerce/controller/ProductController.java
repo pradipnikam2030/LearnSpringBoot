@@ -32,6 +32,12 @@ public class ProductController {
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
+    @GetMapping("/product/{productId}/image")
+    public ResponseEntity<byte[]> getImage(@PathVariable int productId){
+        Product product = productService.getProduct(productId);
+        return new ResponseEntity<>(product.getImageData(), HttpStatus.OK);
+    }
+
     @PostMapping("/product")
     public ResponseEntity<?> addProduct(@RequestPart Product product, @RequestPart MultipartFile imageFile){
         Product newProduct = null;
