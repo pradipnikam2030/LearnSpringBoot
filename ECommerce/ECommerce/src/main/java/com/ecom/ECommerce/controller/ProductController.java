@@ -6,32 +6,44 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping("product")
+@RequestMapping("api")
+@CrossOrigin("*")
 public class ProductController {
 
     @Autowired
     ProductService productService;
 
-    public ResponseEntity<String> home(){
-        return new ResponseEntity<>("home", HttpStatus.OK);
-    }
-
-    @GetMapping("/getAllProducts")
+    @GetMapping("/products")
     public ResponseEntity<List<Product>> getProducts(){
 
         List<Product>  list= productService.getAllProducts();
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
-    @GetMapping("/getProduct")
-    public Product getProduct(){
-        Product  product = new Product();
-        product.setId(1);
-        product.setName("test");
-        return product;
+    @GetMapping("/product/{id}")
+    public ResponseEntity<Product> getProduct(@PathVariable int id){
+        Product product = productService.getProduct(id);
+        return new ResponseEntity<>(product, HttpStatus.OK);
     }
+
+    @PostMapping("/product")
+    public ResponseEntity<?> addProduct(@RequestPart Product product, @RequestPart MultipartFile imageFile){
+        Product newProduct = null;
+        try {
+            newProduct = productService.addProduct(product, imageFile);
+            return new ResponseEntity<>(newProduct, HttpStatus.CREATED);
+        } catch (IOException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
+
+
 }

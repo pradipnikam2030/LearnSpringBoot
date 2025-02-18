@@ -1,9 +1,7 @@
 package com.ecom.ECommerce.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,14 +19,43 @@ public class Product {
     private String brand;
     private BigDecimal price;
     private String category;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private Date realeseDate;
     private boolean productAvailable;
     private int quantity;
+    private String imageName;
+    private String imageType;
+    @Lob
+    private byte[] imageData;
+
+    public String getImageType() {
+        return imageType;
+    }
+
+    public void setImageType(String imageType) {
+        this.imageType = imageType;
+    }
+
+    public String getImageName() {
+        return imageName;
+    }
+
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
+    }
+
+    public byte[] getImageData() {
+        return imageData;
+    }
+
+    public void setImageData(byte[] imageData) {
+        this.imageData = imageData;
+    }
 
     public Product() {
     }
 
-    public Product(int id, String name, String description, String brand, BigDecimal price, String category, Date realeseDate, boolean productAvailable, int quantity) {
+    public Product(int id, String name, String description, String brand, BigDecimal price, String category, Date realeseDate, boolean productAvailable, int quantity, String imageName, String imageType, byte[] imageData) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -38,6 +65,9 @@ public class Product {
         this.realeseDate = realeseDate;
         this.productAvailable = productAvailable;
         this.quantity = quantity;
+        this.imageName = imageName;
+        this.imageType = imageType;
+        this.imageData = imageData;
     }
 
     public int getId() {
