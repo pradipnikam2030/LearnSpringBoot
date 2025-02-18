@@ -41,4 +41,28 @@ public class ProductServiceImpl implements ProductService {
            productRepo.deleteById(id);
        }
     }
+
+    @Override
+    public Product updateProduct(int id, Product product, MultipartFile imageFile) throws IOException {
+        Product existingProduct = productRepo.findById(id).get();
+        if (existingProduct != null) {
+            existingProduct.setName(product.getName());
+            existingProduct.setDescription(product.getDescription());
+            existingProduct.setBrand(product.getBrand());
+            existingProduct.setPrice(product.getPrice());
+            existingProduct.setCategory(product.getCategory());
+            existingProduct.setProductAvailable(product.isProductAvailable());
+            existingProduct.setQuantity(product.getQuantity());
+            existingProduct.setImageName(imageFile.getOriginalFilename());
+            existingProduct.setImageType(imageFile.getContentType());
+            existingProduct.setImageData(imageFile.getBytes());
+            return productRepo.save(existingProduct);
+        }
+        return null;
+    }
+
+    @Override
+    public List<Product> searchProductByKeyword(String keyword) {
+        return productRepo.searchProducts(keyword);
+    }
 }

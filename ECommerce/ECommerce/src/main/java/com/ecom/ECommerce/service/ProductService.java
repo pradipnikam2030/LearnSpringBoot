@@ -15,4 +15,8 @@ public interface ProductService {
     Product addProduct(Product product, MultipartFile imageFile) throws IOException;
 
     void deleteProduct(int id);
+
+    Product updateProduct(int id, Product product, MultipartFile imageFile) throws IOException;
+
+    List<Product> searchProductByKeyword(String keyword);
 }
