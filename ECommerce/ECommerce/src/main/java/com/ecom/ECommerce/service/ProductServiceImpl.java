@@ -33,4 +33,12 @@ public class ProductServiceImpl implements ProductService {
         product.setImageData(imageFile.getBytes());
         return productRepo.save(product);
     }
+
+    @Override
+    public void deleteProduct(int id) {
+       Product product = productRepo.findById(id).get();
+       if (product.getId()==id) {
+           productRepo.deleteById(id);
+       }
+    }
 }
