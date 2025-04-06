@@ -16,7 +16,7 @@ public class UserService {
 
       public User saveUser(User user){
           System.out.println("in save user");
-//          user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+          user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
           return userRepo.save(user);
       }
 }

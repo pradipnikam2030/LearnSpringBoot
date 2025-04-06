@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
+@RequestMapping("/private")
 public class JobRestController {
 
     @Autowired

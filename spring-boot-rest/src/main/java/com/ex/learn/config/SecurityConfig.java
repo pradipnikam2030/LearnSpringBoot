@@ -1,4 +1,3 @@
-/*
 package com.ex.learn.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +26,7 @@ public class SecurityConfig {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setUserDetailsService(userDetailsService);
         provider.setPasswordEncoder(NoOpPasswordEncoder.getInstance());
-//        provider.setPasswordEncoder(new BCryptPasswordEncoder(12));
+        provider.setPasswordEncoder(new BCryptPasswordEncoder(12));
         return provider;
     }
 
@@ -38,10 +37,8 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.POST, "/user").permitAll()  // Allow public access to POST /user
                 .anyRequest().authenticated()
         );
-//         http.formLogin(Customizer.withDefaults());
         http.httpBasic(Customizer.withDefaults());
         http.sessionManagement(customizer -> customizer.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         return http.build();
     }
 }
-*/
